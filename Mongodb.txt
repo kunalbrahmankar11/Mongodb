@@ -1,0 +1,231 @@
+Microsoft Windows [Version 10.0.22621.1848]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\HP>mongod
+'mongod' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\HP>mongo
+'mongo' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\HP>mongosh
+Current Mongosh Log ID: 64c220b3b354ac8f5573da3a
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.1
+Using MongoDB:          6.0.8
+Using Mongosh:          1.10.1
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-07-22T00:26:29.533+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+admin        40.00 KiB
+config      108.00 KiB
+local        40.00 KiB
+mydatabase   72.00 KiB
+test> show collections
+
+test> use 6pp
+switched to db 6pp
+6pp> show dbs
+admin        40.00 KiB
+config      108.00 KiB
+local        40.00 KiB
+mydatabase   72.00 KiB
+6pp> db.students.insertOne({name:"kunal",college:"ghrce"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("64c22338b354ac8f5573da3b")
+}
+6pp> show dbs
+6pp          40.00 KiB
+admin        40.00 KiB
+config      108.00 KiB
+local        40.00 KiB
+mydatabase   72.00 KiB
+6pp> show collections
+students
+6pp> db.students.find()
+[
+  {
+    _id: ObjectId("64c22338b354ac8f5573da3b"),
+    name: 'kunal',
+    college: 'ghrce'
+  }
+]
+6pp> db.colleges.insertOne({name:"ghrce",rank:24})
+{
+  acknowledged: true,
+  insertedId: ObjectId("64c2246eb354ac8f5573da3c")
+}
+6pp> show collections
+colleges
+students
+6pp> db.personal.insertMany({{name:"kunal",age:19},{name:"vishal",age:22},{name:"tushar",age:21}})
+Uncaught:
+SyntaxError: Unexpected token (1:24)
+
+> 1 | db.personal.insertMany({{name:"kunal",age:19},{name:"vishal",age:22},{name:"tushar",age:21}})
+    |                         ^
+  2 |
+
+6pp> db.personal.insertMany([{name:"kunal",age:19},{name:"vishal",age:22},{name:"tushar",age:21}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("64c22571b354ac8f5573da3d"),
+    '1': ObjectId("64c22571b354ac8f5573da3e"),
+    '2': ObjectId("64c22571b354ac8f5573da3f")
+  }
+}
+6pp> show collections
+colleges
+personal
+students
+6pp> personal.find()
+ReferenceError: personal is not defined
+6pp> students.find()
+ReferenceError: students is not defined
+6pp> db.personal.find()
+[
+  { _id: ObjectId("64c22571b354ac8f5573da3d"), name: 'kunal', age: 19 },
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3e"),
+    name: 'vishal',
+    age: 22
+  },
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3f"),
+    name: 'tushar',
+    age: 21
+  }
+]
+6pp> db.personal.find({name:"kunal"})
+[
+  { _id: ObjectId("64c22571b354ac8f5573da3d"), name: 'kunal', age: 19 }
+]
+6pp> db.personal.find({name:"kunal"}),limit(1)
+ReferenceError: limit is not defined
+6pp> db,personal.findOne({name:"Kunal"})
+ReferenceError: personal is not defined
+6pp> db.personal.findOne({name:"Kunal"})
+null
+6pp> db.personal.findOne({name:"kunal"})
+{ _id: ObjectId("64c22571b354ac8f5573da3d"), name: 'kunal', age: 19 }
+6pp> db.personal.find()
+[
+  { _id: ObjectId("64c22571b354ac8f5573da3d"), name: 'kunal', age: 19 },
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3e"),
+    name: 'vishal',
+    age: 22
+  },
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3f"),
+    name: 'tushar',
+    age: 21
+  }
+]
+6pp> db.personal.updateOne(
+... {name:"kunal},{$set:{name:"krunal"}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (2:27)
+
+  1 | db.personal.updateOne(
+> 2 | {name:"kunal},{$set:{name:"krunal"}})
+    |                            ^
+  3 |
+
+6pp> db.personal.updateOne( {name:"kunal"},{$set:{name:"krunal"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+6pp> db.personal.find()
+[
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3d"),
+    name: 'krunal',
+    age: 19
+  },
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3e"),
+    name: 'vishal',
+    age: 22
+  },
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3f"),
+    name: 'tushar',
+    age: 21
+  }
+]
+6pp> db.personal.insertOne({name:"kunal"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("64c23654b354ac8f5573da40")
+}
+6pp> db.personal.find()
+[
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3d"),
+    name: 'krunal',
+    age: 19
+  },
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3e"),
+    name: 'vishal',
+    age: 22
+  },
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3f"),
+    name: 'tushar',
+    age: 21
+  },
+  { _id: ObjectId("64c23654b354ac8f5573da40"), name: 'kunal' }
+]
+6pp> db.personal.deleteOne({name:"kunal"})
+{ acknowledged: true, deletedCount: 1 }
+6pp> db.personal.find()
+[
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3d"),
+    name: 'krunal',
+    age: 19
+  },
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3e"),
+    name: 'vishal',
+    age: 22
+  },
+  {
+    _id: ObjectId("64c22571b354ac8f5573da3f"),
+    name: 'tushar',
+    age: 21
+  }
+]
+6pp> db.personal.deleteMany({})
+{ acknowledged: true, deletedCount: 3 }
+6pp> db.collections
+6pp.collections
+6pp> show collections
+colleges
+personal
+students
+6pp> db.personal.find()
+
+6pp> db.students.find()
+[
+  {
+    _id: ObjectId("64c22338b354ac8f5573da3b"),
+    name: 'kunal',
+    college: 'ghrce'
+  }
+]
+6pp>
